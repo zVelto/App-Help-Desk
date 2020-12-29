@@ -1,7 +1,9 @@
 <?php
 
-//variável que verifica se a autentificação foi realizada
-$usuario_autenticado = false;
+    session_start();
+
+    //variável que verifica se a autentificação foi realizada
+    $usuario_autenticado = false;
 
     //usuarios do sistema
     $usuarios_app = array(
@@ -24,7 +26,9 @@ $usuario_autenticado = false;
 
     if($usuario_autenticado) {
         echo 'Usuário autenticado';
+        $_SESSION['autenticado'] = 'SIM';
     } else {
+        $_SESSION['autenticado'] = 'NAO';
         header('Location: index.php?login=erro');
     }
 
