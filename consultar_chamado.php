@@ -10,8 +10,24 @@
 
   //enquanto houver registros (linhas) a serem recuperados
   while(!feof($arquivo)) { //testa pelo fim de um arquivo
+    
     $registro = fgets($arquivo);
-    $chamados[] = $registro . '<br>';
+
+    $chamado_dados = explode('#', $registro);
+
+    if($_SESSION['Perfil_id'] == 2) {
+      //só vamos exibir o chamado se ele foi criado pelo usuario
+      if($_SESSION['id'] != $chamado_dados[0]) {
+        continue;
+      }
+    }
+
+    if (count($chamado_dados) < 3) {
+      continue;
+    }
+
+    $chamados[] = $chamado_dados;
+
   }
 
   //fechar o arquivo aberto
@@ -62,27 +78,11 @@
 
               <? foreach($chamados as $chamado) { ?>
               
-                <?php 
-                
-                  $chamado_dados = explode('#', $chamado);
-
-                  if($_SESSION['Perfil_id'] == 2) {
-                    //só vamos exibir o chamado se ele foi criado pelo usuario
-                    if($_SESSION['id'] != $chamado_dados[0]) {
-                      continue;
-                    }
-                  }
-
-                  if (count($chamado_dados) < 3) {
-                    continue;
-                  }
-                  
-                ?>
                 <div class="card mb-3 bg-light">
                   <div class="card-body">
-                    <h5 class="card-title"><?= $chamado_dados[1] ?></h5>
-                    <h6 class="card-subtitle mb-2 text-muted"><?= $chamado_dados[2] ?></h6>
-                    <p class="card-text"><?= $chamado_dados[3] ?></p>
+                    <h5 class="card-title"><?= $chamado[1] ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?= $chamado[2] ?></h6>
+                    <p class="card-text"><?= $chamado[3] ?></p>
 
                   </div>
                 </div>
